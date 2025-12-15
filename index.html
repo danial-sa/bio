@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danial Sahila Amardana</title>
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Danial Sahila Amardana">
+    <meta property="og:description" content="Content Creator | Developer | Master Student">
+    <meta property="og:image" content="https://danialsahila.github.io/links/thumbnail.png">
+    <meta property="og:url" content="https://danialsahila.github.io/links/">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Danial Sahila Amardana">
+    <meta name="twitter:description" content="Content Creator | Developer | Master Student">
+    <meta name="twitter:image" content="https://danialsahila.github.io/links/thumbnail.png">
+
     <style>
         * {
             margin: 0;
@@ -20,7 +34,82 @@
             background: #ffffff;
             padding: 20px;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* ===== DARK MODE ===== */
+        body.dark-mode {
+            background: #1a1a2e;
+        }
+
+        body.dark-mode .name {
+            color: #ffffff;
+        }
+
+        body.dark-mode .bio,
+        body.dark-mode .greeting {
+            color: #aaaaaa;
+        }
+
+        body.dark-mode .time {
+            color: #888888;
+        }
+
+        body.dark-mode .link-btn {
+            background: #ffffff;
+            color: #1a1a2e;
+        }
+
+        body.dark-mode .link-btn:hover {
+            color: #ffffff;
+        }
+
+        body.dark-mode .footer {
+            color: #666666;
+        }
+
+        body.dark-mode .node {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        body.dark-mode .node::before,
+        body.dark-mode .node::after {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        body.dark-mode .profile-pic {
+            border-color: #ffffff;
+        }
+
+        body.dark-mode .dark-mode-toggle {
+            background: #ffffff;
+            color: #1a1a2e;
+        }
+
+        /* ===== DARK MODE TOGGLE BUTTON ===== */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: #1a1a1a;
+            color: #ffffff;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode-toggle:hover {
+            transform: scale(1.1);
         }
 
         /* ===== NEURAL NETWORK BACKGROUND ===== */
@@ -117,6 +206,22 @@
             z-index: 1;
         }
 
+        /* ===== GREETING & TIME ===== */
+        .greeting {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .time {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
         .profile-pic {
             width: 120px;
             height: 120px;
@@ -125,7 +230,7 @@
             margin-bottom: 15px;
             object-fit: cover;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .profile-pic:hover {
@@ -138,12 +243,14 @@
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 5px;
+            transition: color 0.3s ease;
         }
 
         .bio {
             color: #666;
             font-size: 14px;
             margin-bottom: 30px;
+            transition: color 0.3s ease;
         }
 
         .links {
@@ -198,10 +305,16 @@
             box-shadow: 0 8px 25px rgba(225, 48, 108, 0.4);
         }
 
+        .cv:hover {
+            background: #2d3436;
+            box-shadow: 0 8px 25px rgba(45, 52, 54, 0.4);
+        }
+
         .footer {
             margin-top: 40px;
             color: #aaa;
             font-size: 12px;
+            transition: color 0.3s ease;
         }
 
         /* ===== LIGHTBOX STYLES ===== */
@@ -258,6 +371,9 @@
     </style>
 </head>
 <body>
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" id="darkModeBtn">🌙</button>
+
     <!-- Neural Network Background -->
     <div class="neural-bg">
         <div class="node"></div>
@@ -273,6 +389,10 @@
     </div>
 
     <div class="container">
+        <!-- Greeting & Time -->
+        <p class="greeting" id="greeting">Good Morning ☀️</p>
+        <p class="time" id="time">00:00:00</p>
+
         <!-- Foto kamu (klik untuk preview) -->
         <img src="foto.png" alt="Profile" class="profile-pic" onclick="openLightbox()">
         
@@ -281,6 +401,14 @@
         <p class="bio">Content Creator | Developer | Master Student</p>
 
         <div class="links">
+            <!-- Download CV -->
+            <a href="cv.pdf" download class="link-btn cv">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm8-6v4h-4v-4H8l4-4 4 4h-2z"/>
+                </svg>
+                Download CV
+            </a>
+
             <!-- LinkedIn -->
             <a href="https://www.linkedin.com/in/danial-sahila-amardana/" target="_blank" class="link-btn linkedin">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -324,6 +452,7 @@
     </div>
 
     <script>
+        // ===== LIGHTBOX =====
         function openLightbox() {
             document.getElementById('lightbox').classList.add('active');
         }
@@ -337,6 +466,60 @@
                 closeLightbox();
             }
         });
+
+        // ===== DARK MODE =====
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('darkModeBtn');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                btn.textContent = '☀️';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                btn.textContent = '🌙';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
+
+        // Check saved preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('darkModeBtn').textContent = '☀️';
+        }
+
+        // ===== GREETING & TIME =====
+        function updateGreetingAndTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const greetingEl = document.getElementById('greeting');
+            const timeEl = document.getElementById('time');
+
+            // Greeting based on time
+            let greeting;
+            if (hours >= 5 && hours < 12) {
+                greeting = 'Good Morning ☀️';
+            } else if (hours >= 12 && hours < 17) {
+                greeting = 'Good Afternoon 🌤️';
+            } else if (hours >= 17 && hours < 21) {
+                greeting = 'Good Evening 🌅';
+            } else {
+                greeting = 'Good Night 🌙';
+            }
+            greetingEl.textContent = greeting;
+
+            // Format time
+            const timeString = now.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            timeEl.textContent = timeString;
+        }
+
+        // Update immediately and then every second
+        updateGreetingAndTime();
+        setInterval(updateGreetingAndTime, 1000);
     </script>
 </body>
 </html>
